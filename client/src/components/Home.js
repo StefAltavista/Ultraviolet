@@ -20,9 +20,7 @@ export default function Home() {
 
     return (
         <>
-            <h1 class="title" ref={titleRef}>
-                Superface
-            </h1>
+            <h1 ref={titleRef}>Superface</h1>
             <p ref={subtitleRef}>Exteriorities and Deep Superficialities</p>
 
             <CloudWorld />

@@ -4,12 +4,14 @@
     "description": "react project boilerplate",
     "main": "index.js",
     "scripts": {
-        "start": "webpack-dev-server --mode development --open --hot",
+        "dev": "webpack-dev-server --mode development --open --hot",
+        "start": "node server.js",
         "build": "webpack --mode production"
     },
     "author": "stef altavista",
     "license": "ISC",
     "dependencies": {
+        "express": "^4.18.1",
         "gsap": "^3.11.1",
         "p5": "^1.4.2",
         "react": "^18.2.0",

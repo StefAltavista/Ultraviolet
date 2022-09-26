@@ -7,7 +7,15 @@ module.exports = {
         filename: "bundle.js",
     },
     plugins: [new HTMLwebpackPlugin({ template: "./client/src/index.html" })],
-
+    devServer: {
+        static: path.join(__dirname, "client", "public"),
+        proxy: {
+            "/": {
+                target: "http://localhost:7000",
+            },
+        },
+        port: "7001",
+    },
     module: {
         rules: [
             {
