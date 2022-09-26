@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import * as p5 from "p5";
 let width = 600;
 let height = 600;
-let lgt = 5;
+let lgt = 20;
 let w = width / lgt;
 let h = height / lgt;
 let flying = 0;
