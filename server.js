@@ -5,7 +5,7 @@ var app = express();
 
 app.use(express.static(path.join(__dirname, "dist")));
 app.use(express.static(path.join(__dirname, "client")));
-app.set("port", process.env.PORT || 7000);
+app.set("port", process.env.PORT || 7001);
 
 var server = app.listen(app.get("port"), function () {
     console.log("listening on port ", server.address().port);

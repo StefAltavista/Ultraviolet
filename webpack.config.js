@@ -11,10 +11,10 @@ module.exports = {
         static: path.join(__dirname, "client", "public"),
         proxy: {
             "/": {
-                target: "http://localhost:7000",
+                target: "http://localhost:7001",
             },
         },
-        port: "7001",
+        port: "7000",
     },
     module: {
         rules: [

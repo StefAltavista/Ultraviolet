@@ -2,14 +2,18 @@ import React from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import Face from "../graphics/Face";
 import CloudWorld from "../graphics/CloudWorld";
+import Oscillations from "../tone/oscillations";
 
 import { gsap } from "gsap";
 
 export default function Home() {
     const titleRef = useRef();
     const subtitleRef = useRef();
-    const cloudRef = useRef();
+    const toggle = (what) => {
+        console.log(what);
+    };
 
     useEffect(() => {
         const timeline = gsap.timeline({ defaults: { duration: 2 } });
@@ -19,11 +23,17 @@ export default function Home() {
     }, []);
 
     return (
-        <>
+        <div
+            style={{ backgroundColor: "black", color: "red", height: "100vw" }}
+        >
             <h1 ref={titleRef}>Superface</h1>
             <p ref={subtitleRef}>Exteriorities and Deep Superficialities</p>
 
-            <CloudWorld />
-        </>
+            <button onClick={() => toggle("pinkworld")}>Pink World</button>
+            <button onClick={() => toggle("face")}>Face</button>
+            <button onClick={() => toggle("oscillations")}>Oscillations</button>
+
+            <Oscillations></Oscillations>
+        </div>
     );
 }
