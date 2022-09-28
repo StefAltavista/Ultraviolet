@@ -1,33 +1,46 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
-export default function Sequencer() {
+import Slider from "./Slider";
+
+export default function Sequencer(props) {
     const [steps, setSteps] = useState(8);
     const [sequence, setSequence] = useState([]);
 
     useEffect(() => {
         let arr = [...sequence];
         for (let i = 0; i < steps; i++) {
-            arr[i] = false;
+            arr[i] = 0;
         }
-        console.log(arr);
+
         setSequence(arr);
     }, []);
 
+    useEffect(() => {
+        let arr = [];
+        for (let i = 0; i < sequence.length; i++) {
+            sequence[i] ? (arr[i] = sequence[i]) : (arr[i] = null);
+        }
+        props.onChangeSequence(arr);
+    }, [sequence]);
+
     const toggleStep = (index) => {
         let arr = [...sequence];
-        arr[index] = !arr[index];
+        arr[index] = !arr[index] ? 50 : 0;
         setSequence(arr);
-        console.log(arr);
     };
     const changeSteps = (sign) => {
         let arr = [...sequence];
         sign == "+"
-            ? (arr.push(false), setSteps(steps + 1))
+            ? (arr.push(0), setSteps(steps + 1))
             : (arr.pop(), setSteps(steps - 1));
         setSequence(arr);
     };
-
+    const note = (n, idx) => {
+        let arr = [...sequence];
+        arr[idx] = n;
+        setSequence(arr);
+    };
     return (
         <>
             <div
@@ -54,17 +67,17 @@ export default function Sequencer() {
             >
                 {sequence.map((x, idx) => (
                     <div
+                        key={idx}
                         style={{
                             display: "flex",
                             flexDirection: "column",
-                            width: "100px",
+                            alignItems: "center",
                         }}
                     >
                         <div
-                            key={idx}
                             style={{
                                 border: "1px solid white",
-                                margin: "5px",
+                                margin: "10px",
                                 width: "30px",
                                 height: "30px",
                                 backgroundColor: x ? "grey" : "black",
@@ -72,15 +85,7 @@ export default function Sequencer() {
                             }}
                             onClick={() => toggleStep(idx)}
                         ></div>
-
-                        <input
-                            type="range"
-                            style={{
-                                transformOrigin: " 0% 0%",
-                                transform: "translateX(420px)",
-                                transform: "rotateZ(90deg) translateY(73px)",
-                            }}
-                        />
+                        <Slider onSetNote={(value) => note(value, idx)} />
                     </div>
                 ))}
             </div>

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import * as Tone from "tone";
 import Sequencer from "./Sequencer";
 
 export default function Oscillations() {
-    const synth = new Tone.FMOscillator({
+    const synth = new Tone.FMSynth({
         modulationIndex: 20,
         frequency: 60,
         envelope: {
@@ -33,30 +34,35 @@ export default function Oscillations() {
     phaser.connect(distortion1);
     distortion1.connect(filt);
 
-    filt.connect(delay);
+    filt.connect(distortion2);
     delay.connect(distortion2);
 
     //LFO
 
     //sequencer
 
-    const seq = new Tone.Sequence(
+    let initialSeq = [null, null, null, 100];
+    let seq = new Tone.Sequence(
         (time, freq) => {
             synth.triggerAttack(freq, time, Math.random() * 0.5 + 0.5);
         },
-        [300, null, 200, null, 200, 200, null, 200, null, 200, null, 200],
+        initialSeq,
         "16n"
     ).start(0);
+
+    const changeSeq = (newSeq) => {
+        seq.set({ events: newSeq });
+    };
 
     //controlls
 
     function playSynth() {
-        // synthPart.start();
-        synth.start();
-        // Tone.Transport.start();
+        // synth.start();
+        Tone.Transport.start();
     }
     function stopSynth() {
-        synth.stop();
+        Tone.Transport.stop();
+        // synth.stop();
     }
 
     function freq(value) {
@@ -93,6 +99,7 @@ export default function Oscillations() {
                     type="range"
                     min={0}
                     max={100}
+                    step={0.1}
                     onChange={(e) => phs(e.target.value)}
                 ></input>
                 <p>Distortion 1</p>
@@ -120,7 +127,9 @@ export default function Oscillations() {
                     onChange={(e) => dst2(e.target.value)}
                 ></input>
             </div>
-            <Sequencer></Sequencer>
+            <Sequencer
+                onChangeSequence={(newSeq) => changeSeq(newSeq)}
+            ></Sequencer>
         </>
     );
 }

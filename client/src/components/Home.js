@@ -26,12 +26,13 @@ export default function Home() {
         <div
             style={{ backgroundColor: "black", color: "red", height: "100vw" }}
         >
-            <h1 ref={titleRef}>Superface</h1>
-            <p ref={subtitleRef}>Exteriorities and Deep Superficialities</p>
+            <h1 ref={titleRef}>B I T E</h1>
+            {/* <p ref={subtitleRef}>Exteriorities and Deep Superficialities</p> */}
+            <p ref={subtitleRef}>Digital Industrial Synth</p>
 
-            <button onClick={() => toggle("pinkworld")}>Pink World</button>
+            {/* <button onClick={() => toggle("pinkworld")}>Pink World</button>
             <button onClick={() => toggle("face")}>Face</button>
-            <button onClick={() => toggle("oscillations")}>Oscillations</button>
+            <button onClick={() => toggle("oscillations")}>Oscillations</button> */}
 
             <Oscillations></Oscillations>
         </div>
