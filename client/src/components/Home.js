@@ -18,7 +18,7 @@ export default function Home() {
     useEffect(() => {
         const timeline = gsap.timeline({ defaults: { duration: 2 } });
         timeline
-            .fromTo(titleRef.current, { x: "-50%" }, { x: "0%" })
+            .fromTo(titleRef.current, { x: "-50%" }, { x: "20%" })
             .fromTo(subtitleRef.current, { opacity: 0 }, { opacity: 1 });
     }, []);
 
@@ -26,7 +26,7 @@ export default function Home() {
         <div
             style={{ backgroundColor: "black", color: "red", height: "100vw" }}
         >
-            <h1 ref={titleRef}>B I T E</h1>
+            <h1 ref={titleRef}>U L T R A V I O L E T</h1>
             {/* <p ref={subtitleRef}>Exteriorities and Deep Superficialities</p> */}
             <p ref={subtitleRef}>Digital Industrial Synth</p>
 

@@ -1,7 +1,7 @@
 {
-    "name": "react-init",
+    "name": "ultraviolet",
     "version": "1.0.0",
-    "description": "react project boilerplate",
+    "description": "Synthezier web app",
     "main": "index.js",
     "scripts": {
         "dev": "webpack-dev-server --mode development --open --hot",
