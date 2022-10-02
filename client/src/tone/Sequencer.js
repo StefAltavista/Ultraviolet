@@ -85,7 +85,10 @@ export default function Sequencer(props) {
                             }}
                             onClick={() => toggleStep(idx)}
                         ></div>
-                        <Slider onSetNote={(value) => note(value, idx)} />
+                        <Slider
+                            onSetValue={(value) => note(value, idx)}
+                            maxValue={500}
+                        />
                     </div>
                 ))}
             </div>

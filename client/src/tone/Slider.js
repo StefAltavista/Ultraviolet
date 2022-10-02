@@ -7,15 +7,15 @@ export default function Slider(props) {
     const [state, setState] = useState({ values: [0] });
 
     useEffect(() => {
-        props.onSetNote(state.values[0]);
+        props.onSetValue(state.values[0]);
     }, [state]);
 
     return (
         <Range
-            step={0.1}
+            step={0.01}
             direction={Direction.Up}
             min={0}
-            max={500}
+            max={props.maxValue}
             values={state.values}
             onChange={(values) => setState({ values })}
             renderTrack={({ props, children }) => (

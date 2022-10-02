@@ -38,7 +38,18 @@ const effectsProps = {
             },
         ],
     },
-
+    Reverb: {
+        eName: "Reverb",
+        parameters: [
+            {
+                param: "decay",
+                valueInit: 0.2,
+                maxValue: 5,
+                step: 0.1,
+                paramRamp: true,
+            },
+        ],
+    },
     Distortion: {
         eName: "Distortion",
         parameters: [

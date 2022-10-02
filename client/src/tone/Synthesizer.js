@@ -29,7 +29,7 @@ export default function Synthesizer() {
     //SEQUENCER
     let seq = new Tone.Sequence(
         (time, freq) => {
-            synth.triggerAttack(freq, time, Math.random() * 0.5 + 0.5);
+            synth.triggerAttack(freq, time, 0.5);
             // adsr.triggerAttackRelease(0.5);
         },
         sequence,
@@ -68,6 +68,7 @@ export default function Synthesizer() {
 
             <Sequencer
                 onChangeSequence={(newSeq) => changeSeq(newSeq)}
+                max={500}
             ></Sequencer>
         </>
     );
