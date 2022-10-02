@@ -1,54 +1,73 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as Tone from "tone";
+import NewEffect from "./NewEffect";
+import AddEffectButton from "./AddEffectButton";
 
-export default function Effects({ eName, parameters, orden, FX, tweekFX }) {
-    class EFX {
-        constructor(eName, parameters, orden) {
-            this.orden = orden;
-            this.name = eName;
-            this.parameters = [...parameters];
-            let params = {};
-            for (let i = 0; i < parameters.length; i++) {
-                params = { ...params, [parameters[i].param]: 0 };
-            }
-            this.effect = new Tone[eName](params);
+let effects = [];
+
+export default function Effects({ synth, output }) {
+    const [fxChain, setFxChain] = useState([]);
+    console.log(synth);
+
+    const getFx = (fx) => {
+        effects = [...effects, fx];
+    };
+    const tweek = (orden, value, param, paramRamp) => {
+        effects[orden].tweek(value, param, paramRamp);
+        effects[orden].parameters.map((p) => {
+            p.param == param ? (p.valueInit = value) : null;
+        });
+    };
+
+    useEffect(() => {
+        console.log("connections ");
+        if (fxChain.length == 0) {
+            synth.connect(output);
         }
-        tweek(value, param, paramRamp) {
-            if (paramRamp) {
-                this.effect[param].linearRampToValueAtTime(value, Tone.now());
+
+        for (let i = 0; i < fxChain.length; i++) {
+            if (i == 0) {
+                synth.connect(effects[i].effect);
+            }
+            if (i == fxChain.length - 1) {
+                effects[i].effect.connect(output);
+
+                break;
             } else {
-                this.effect[param] = value;
+                effects[i].effect.connect(effects[i + 1].effect);
             }
         }
-    }
-    let newEffect = new EFX(eName, parameters, orden);
-    FX(newEffect);
+    }, [fxChain]);
 
     return (
-        <div className="effect">
-            <h3>{newEffect.name}</h3>
-            {newEffect.parameters.map((p) => {
+        <div id="effectRack" style={{ display: "flex", flexDirection: "row" }}>
+            {fxChain.map((fx, i) => {
                 return (
-                    <div key={p.param}>
-                        <p>{p.param}</p>
-                        <input
-                            type="range"
-                            min={0}
-                            max={p.maxValue}
-                            step={p.step}
-                            defaultValue={0}
-                            onChange={(e) =>
-                                tweekFX(
-                                    newEffect.orden,
-                                    e.target.value,
-                                    p.param,
-                                    p.paramRamp
-                                )
-                            }
-                        ></input>
-                    </div>
+                    <NewEffect
+                        key={i}
+                        orden={i}
+                        eName={fx}
+                        list={effects}
+                        FX={(fx) => getFx(fx)}
+                        tweekFX={(orden, value, param, paramRamp) => {
+                            tweek(orden, value, param, paramRamp);
+                        }}
+                    ></NewEffect>
                 );
             })}
+            <div>
+                <AddEffectButton
+                    addSelected={(selectedEffect) => {
+                        synth.disconnect();
+                        effects.map((fx) => {
+                            fx.effect.disconnect();
+                        });
+
+                        let chain = [...fxChain, selectedEffect];
+                        setFxChain(chain);
+                    }}
+                />
+            </div>
         </div>
     );
 }
