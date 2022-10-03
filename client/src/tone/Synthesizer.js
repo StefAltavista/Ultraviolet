@@ -19,7 +19,7 @@ export default function Synthesizer({ getOutput }) {
     const [oscillator, setOscillator] = useState(null);
     let output = new Tone.Gain().toDestination();
     output.gain.rampTo(vol);
-    Tone.start();
+
     getOutput(output);
 
     //OSCILLATOR
@@ -71,9 +71,11 @@ export default function Synthesizer({ getOutput }) {
 
     const playSynth = () => {
         Tone.Transport.start();
+        Tone.start();
     };
     const stopSynth = () => {
         Tone.Transport.stop();
+        Tone.stop();
         // oscillator.stop();
     };
 
