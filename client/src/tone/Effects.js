@@ -6,7 +6,7 @@ import AddEffectButton from "./AddEffectButton";
 let effects = [];
 
 export default function Effects({ oscillator, output }) {
-    const [fxChain, setFxChain] = useState([]);
+    const [fxChain, setFxChain] = useState(["Filter"]);
 
     const getFx = (fx) => {
         effects = [...effects, fx];
@@ -39,33 +39,37 @@ export default function Effects({ oscillator, output }) {
     }, [fxChain]);
 
     return (
-        <div id="effectRack" style={{ display: "flex", flexDirection: "row" }}>
-            {fxChain.map((fx, i) => {
-                return (
-                    <NewEffect
-                        key={i}
-                        orden={i}
-                        eName={fx}
-                        list={effects}
-                        FX={(fx) => getFx(fx)}
-                        tweekFX={(orden, value, param, paramRamp) => {
-                            tweek(orden, value, param, paramRamp);
-                        }}
-                    ></NewEffect>
-                );
-            })}
-            <div>
-                <AddEffectButton
-                    addSelected={(selectedEffect) => {
-                        oscillator.disconnect();
-                        effects.map((fx) => {
-                            fx.effect.disconnect();
-                        });
+        <div id="effectRack">
+            <h3>Effect Rack</h3>
+            <div id="effects" style={{ display: "flex", flexDirection: "row" }}>
+                {fxChain.map((fx, i) => {
+                    return (
+                        <NewEffect
+                            key={i}
+                            orden={i}
+                            eName={fx}
+                            list={effects}
+                            FX={(fx) => getFx(fx)}
+                            tweekFX={(orden, value, param, paramRamp) => {
+                                tweek(orden, value, param, paramRamp);
+                            }}
+                        ></NewEffect>
+                    );
+                })}
 
-                        let chain = [...fxChain, selectedEffect];
-                        setFxChain(chain);
-                    }}
-                />
+                <div id="addEffectButton">
+                    <AddEffectButton
+                        addSelected={(selectedEffect) => {
+                            oscillator.disconnect();
+                            effects.map((fx) => {
+                                fx.effect.disconnect();
+                            });
+
+                            let chain = [...fxChain, selectedEffect];
+                            setFxChain(chain);
+                        }}
+                    />
+                </div>
             </div>
         </div>
     );

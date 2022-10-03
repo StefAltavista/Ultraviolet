@@ -7,6 +7,7 @@ import Effects from "./Effects";
 import Oscillator from "./Oscillator";
 import Envelope from "./Envelope";
 
+let vol = 0.7;
 let sequence = [null];
 let osc;
 let envelope;
@@ -14,9 +15,11 @@ let synthGain;
 let gate;
 let bpm = 66;
 
-export default function Synthesizer() {
-    // const [fxChain, setFxChain] = useState(["Filter"]);
+export default function Synthesizer({ getOutput }) {
     const [oscillator, setOscillator] = useState(null);
+    let output = new Tone.Gain().toDestination();
+    output.gain.rampTo(vol);
+    getOutput(output);
 
     //OSCILLATOR
     const setOsc = (o) => {
@@ -46,8 +49,6 @@ export default function Synthesizer() {
             release: newADSR.release,
         });
     };
-    let output = new Tone.Gain().toDestination();
-    output.gain.rampTo(0.7);
 
     //SEQUENCER
     let seq = new Tone.Sequence(
@@ -81,23 +82,33 @@ export default function Synthesizer() {
     };
 
     return (
-        <>
-            <div
-                id="controls"
-                style={{ display: "flex", flexDirection: "row" }}
-            >
-                <button onClick={playSynth}>Start Sound</button>
-                <button onClick={stopSynth}>Stop Sound</button>
+        <div>
+            <div id="controls">
+                <div id="seqSettings">
+                    <button onClick={playSynth}>Play</button>
+                    <button onClick={stopSynth}>Stop</button>
 
-                <p>BPM:</p>
-                <input
-                    type="number"
-                    defaultValue={bpm}
-                    max={1000}
-                    onChange={(e) => setBpm(e.target.value)}
-                ></input>
+                    <p>BPM:</p>
+                    <input
+                        type="number"
+                        defaultValue={bpm}
+                        max={1000}
+                        onChange={(e) => setBpm(e.target.value)}
+                    ></input>
+                    <p>Volume</p>
+                    <input
+                        type="range"
+                        defaultValue={0.7}
+                        step={0.01}
+                        max={1}
+                        onChange={(e) => {
+                            vol = -(e.target.value * 1);
+                            output.gain.rampTo(vol);
+                        }}
+                    ></input>
+                </div>
             </div>
-            <div style={{ display: "flex", flexDirection: "row" }}>
+            <div id="synth">
                 <Oscillator
                     getOscillator={(osc) => setOsc(osc)}
                     tweek={(values) => {
@@ -107,26 +118,29 @@ export default function Synthesizer() {
                         );
                     }}
                 ></Oscillator>
+
+                <Envelope
+                    getEnvelope={(ampEnv) => {
+                        setEnvelope(ampEnv);
+                    }}
+                    tweekEnvelope={(newADSR) => {
+                        changeADSR(newADSR);
+                    }}
+                    maxValue={1}
+                ></Envelope>
+                <div id="runSeq">
+                    <Sequencer
+                        onChangeSequence={(newSeq) => changeSeq(newSeq)}
+                        onChangeGate={(newGate) => {
+                            gate = newGate;
+                        }}
+                        max={500}
+                    ></Sequencer>
+                </div>
             </div>
-            <Envelope
-                getEnvelope={(ampEnv) => {
-                    setEnvelope(ampEnv);
-                }}
-                tweekEnvelope={(newADSR) => {
-                    changeADSR(newADSR);
-                }}
-                maxValue={1}
-            ></Envelope>
-            <Sequencer
-                onChangeSequence={(newSeq) => changeSeq(newSeq)}
-                onChangeGate={(newGate) => {
-                    gate = newGate;
-                }}
-                max={500}
-            ></Sequencer>
             {oscillator ? (
                 <Effects oscillator={oscillator} output={output}></Effects>
             ) : null}
-        </>
+        </div>
     );
 }

@@ -25,7 +25,7 @@ export default function Slider(props) {
                         ...props.style,
                         height: "200px",
                         width: "5px",
-                        backgroundColor: "#ccc",
+                        backgroundColor: "rgb(159, 124, 255)",
                     }}
                 >
                     {children}

@@ -13,7 +13,7 @@ export default function NewEffect({ eName, orden, FX, tweekFX, list }) {
     }
 
     return (
-        <div className="effect">
+        <div id="effect">
             <h3>{newEffect.eName}</h3>
             {newEffect.parameters.map((p, i) => {
                 return (

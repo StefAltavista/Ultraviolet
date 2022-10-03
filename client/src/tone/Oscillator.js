@@ -7,12 +7,14 @@ export default function Oscillator({ getOscillator, tweek }) {
         modulationIndex: 0,
         frequency: 60,
         volume: -100,
+        harmonicity: 5,
+        modulationIndex: 5,
     }).start();
 
     getOscillator(oscillator);
 
     return (
-        <div>
+        <div id="oscillator">
             <h3>Oscillator</h3>
             <p>Frequency</p>
             <input
@@ -31,6 +33,7 @@ export default function Oscillator({ getOscillator, tweek }) {
                 min={0}
                 max={10}
                 step={0.1}
+                defaultValue={5}
                 onChange={(e) => {
                     tweek({
                         param: "harmonicity",
@@ -44,6 +47,7 @@ export default function Oscillator({ getOscillator, tweek }) {
                 type="range"
                 min={0}
                 max={10}
+                defaultValue={5}
                 step={0.1}
                 onChange={(e) => {
                     tweek({

@@ -13,23 +13,26 @@ export default function Envelope({ tweekEnvelope, getEnvelope }) {
     getEnvelope(ampEnv);
 
     return (
-        <div id="envelope" style={{ display: "flex", flexDirection: "row" }}>
-            {Object.keys(envelope).map((x) => {
-                return (
-                    <div key={x}>
-                        <p>{x}</p>
-                        <Slider
-                            onSetValue={(value) => {
-                                envelope = { ...envelope, [x]: value };
-                                tweekEnvelope(envelope);
-                            }}
-                            maxValue={1}
-                            minValue={x == "decay" ? 0.001 : 0}
-                            initValue={envelope[x]}
-                        ></Slider>
-                    </div>
-                );
-            })}
+        <div id="envelope">
+            <h3>Amp EG</h3>
+            <div id="adsr">
+                {Object.keys(envelope).map((x) => {
+                    return (
+                        <div id="stage" key={x[0]}>
+                            <Slider
+                                onSetValue={(value) => {
+                                    envelope = { ...envelope, [x]: value };
+                                    tweekEnvelope(envelope);
+                                }}
+                                maxValue={1}
+                                minValue={x == "decay" ? 0.001 : 0}
+                                initValue={envelope[x]}
+                            ></Slider>
+                            <p>{x}</p>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 }

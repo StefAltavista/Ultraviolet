@@ -45,73 +45,83 @@ export default function Sequencer(props) {
         props.onChangeGate(gate);
     };
     return (
-        <>
-            {" "}
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                }}
-            >
-                <div>
-                    <p>Gate</p>
-                    <Slider
-                        onSetValue={(value) => gate(value)}
-                        maxValue={1}
-                        initValue={0.5}
-                    />
-                </div>
-                <p>Steps: {steps}</p>
-                <div style={button} onClick={() => changeSteps("+")}>
-                    +
-                </div>
-                <div style={button} onClick={() => changeSteps("-")}>
-                    -
-                </div>
-            </div>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                }}
-            >
-                {sequence.map((x, idx) => (
-                    <div
-                        key={idx}
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                        }}
-                    >
-                        <div
-                            style={{
-                                border: "1px solid white",
-                                margin: "10px",
-                                width: "30px",
-                                height: "30px",
-                                backgroundColor: x ? "grey" : "black",
-                                cursor: "pointer",
-                            }}
-                            onClick={() => toggleStep(idx)}
-                        ></div>
-                        <Slider
-                            onSetValue={(value) => note(value, idx)}
-                            maxValue={500}
-                        />
+        <div id="sequencer">
+            <div id="sequencerHead">
+                {" "}
+                <h3>Sequencer</h3>
+                <div id="setSteps">
+                    <p>Steps: {steps}</p>
+                    <div style={button} onClick={() => changeSteps("+")}>
+                        +
                     </div>
-                ))}
+                    <div style={button} onClick={() => changeSteps("-")}>
+                        -
+                    </div>
+                </div>
             </div>
-        </>
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "row",
+                }}
+            >
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}
+                >
+                    <div
+                        id="steps"
+                        style={{ display: "flex", flexDirection: "row" }}
+                    >
+                        <div id="gate">
+                            <p>Gate</p>
+                            <Slider
+                                onSetValue={(value) => gate(value)}
+                                maxValue={1}
+                                initValue={0.5}
+                            />
+                        </div>
+                        {sequence.map((x, idx) => (
+                            <div
+                                key={idx}
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        border: "1px solid white",
+                                        margin: "10px",
+                                        width: "30px",
+                                        height: "30px",
+                                        backgroundColor: x ? "grey" : "black",
+                                        cursor: "pointer",
+                                    }}
+                                    onClick={() => toggleStep(idx)}
+                                ></div>
+                                <Slider
+                                    onSetValue={(value) => note(value, idx)}
+                                    maxValue={500}
+                                />
+                            </div>
+                        ))}{" "}
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 
 const button = {
     margin: "5px",
-    width: "15px",
-    height: "15px",
-    backgroundColor: "grey",
+    width: "20px",
+    height: "20px",
+    backgroundColor: "blueviolet",
     cursor: "pointer",
     textAlign: "center",
 };
