@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import * as Tone from "tone";
 import NewEffect from "./NewEffect";
 import AddEffectButton from "./AddEffectButton";
 
@@ -19,7 +18,6 @@ export default function Effects({ oscillator, output }) {
     };
 
     useEffect(() => {
-        console.log("connections ");
         if (fxChain.length == 0) {
             oscillator.connect(output);
         }
@@ -40,8 +38,23 @@ export default function Effects({ oscillator, output }) {
 
     return (
         <div id="effectRack">
-            <h3>Effect Rack</h3>
-            <div id="effects" style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+                <h3>Effects</h3>{" "}
+                <div id="addEffectButton">
+                    <AddEffectButton
+                        addSelected={(selectedEffect) => {
+                            oscillator.disconnect();
+                            effects.map((fx) => {
+                                fx.effect.disconnect();
+                            });
+
+                            let chain = [...fxChain, selectedEffect];
+                            setFxChain(chain);
+                        }}
+                    />
+                </div>
+            </div>
+            <div id="effects">
                 {fxChain.map((fx, i) => {
                     return (
                         <NewEffect
@@ -56,20 +69,6 @@ export default function Effects({ oscillator, output }) {
                         ></NewEffect>
                     );
                 })}
-
-                <div id="addEffectButton">
-                    <AddEffectButton
-                        addSelected={(selectedEffect) => {
-                            oscillator.disconnect();
-                            effects.map((fx) => {
-                                fx.effect.disconnect();
-                            });
-
-                            let chain = [...fxChain, selectedEffect];
-                            setFxChain(chain);
-                        }}
-                    />
-                </div>
             </div>
         </div>
     );

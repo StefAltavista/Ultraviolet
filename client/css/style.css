@@ -19,17 +19,31 @@ p {
 }
 
 #header {
-    color: orange;
+    padding-left: 5px;
     background-color: purple;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+}
+#title {
+    color: orange;
     display: flex;
     flex-direction: column;
     height: 80px;
     margin-bottom: 10px;
 }
-#title {
-    height: 40px;
-    margin: 0;
+#line {
+    border-top: 1px solid orange;
+    width: 100%;
 }
+#controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 #synth {
     display: flex;
     flex-direction: row;
@@ -101,7 +115,7 @@ input[type="range"]::-webkit-slider-thumb:focus {
 
 #sequencer {
     border: 1px solid purple;
-    margin-right: 5px;
+    /* margin-right: 5px; */
 }
 #gate {
     display: flex;
@@ -112,13 +126,6 @@ input[type="range"]::-webkit-slider-thumb:focus {
     padding: 5px;
 }
 
-#controls {
-    position: fixed;
-    top: 0;
-    right: 0;
-    margin: 10px;
-}
-
 #runSeq {
     display: flex;
     flex-direction: row;
@@ -127,6 +134,7 @@ input[type="range"]::-webkit-slider-thumb:focus {
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
 }
 #seqSettings button,
 input {
@@ -153,6 +161,8 @@ input {
 }
 
 #steps {
+    display: flex;
+    flex-direction: row;
     width: 450px;
     overflow: scroll;
     white-space: nowrap;
@@ -160,9 +170,13 @@ input {
 
 #effectRack {
     margin-top: 10px;
+    padding: 5px;
     border: 1px solid purple;
 }
 #effects {
+    display: flex;
+    flex-direction: row;
+
     overflow: scroll;
     white-space: nowrap;
     margin-top: 10px;
@@ -171,9 +185,45 @@ input {
     padding: 10px;
     color: orange;
     background-color: purple;
-    margin: 10px;
+    margin-right: 10px;
     width: 180px;
 }
 #effect input {
     width: 100px;
+}
+#effectRack button {
+    margin: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: blueviolet;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+#FX {
+    position: absolute;
+    background-color: orange;
+}
+
+#FX p:hover {
+    color: orange;
+    background-color: #000000;
+    cursor: pointer;
+}
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 20px;
+    }
+    #steps {
+        overflow: scroll;
+        white-space: nowrap;
+    }
+    #header,
+    #oscillator,
+    #envelope,
+    #steps,
+    #effectRack {
+        width: 100vw;
+        overflow: scroll;
+    }
 }

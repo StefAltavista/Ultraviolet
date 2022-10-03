@@ -4,8 +4,8 @@ const effectsProps = {
         parameters: [
             {
                 param: "frequency",
-                valueInit: 5000,
-                maxValue: 5000,
+                valueInit: 10000,
+                maxValue: 10000,
                 step: 1,
 
                 paramRamp: true,

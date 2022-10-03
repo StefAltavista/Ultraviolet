@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 import Slider from "./Slider";
 
@@ -10,9 +10,9 @@ export default function Sequencer(props) {
     useEffect(() => {
         let arr = [...sequence];
         for (let i = 0; i < steps; i++) {
-            arr[i] = 0;
+            i == 0 ? (arr[i] = 100) : (arr[i] = 0);
         }
-
+        props.onChangeSequence(arr);
         setSequence(arr);
     }, []);
 
@@ -26,7 +26,7 @@ export default function Sequencer(props) {
 
     const toggleStep = (index) => {
         let arr = [...sequence];
-        arr[index] = !arr[index] ? 50 : 0;
+        arr[index] = !arr[index] ? 1 : 0;
         setSequence(arr);
     };
     const changeSteps = (sign) => {
@@ -72,10 +72,7 @@ export default function Sequencer(props) {
                         alignItems: "center",
                     }}
                 >
-                    <div
-                        id="steps"
-                        style={{ display: "flex", flexDirection: "row" }}
-                    >
+                    <div id="steps">
                         <div id="gate">
                             <p>Gate</p>
                             <Slider
@@ -107,6 +104,7 @@ export default function Sequencer(props) {
                                 <Slider
                                     onSetValue={(value) => note(value, idx)}
                                     maxValue={500}
+                                    initValue={idx == 0 ? 100 : 0}
                                 />
                             </div>
                         ))}{" "}

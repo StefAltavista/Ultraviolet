@@ -1,26 +1,23 @@
 import React, { useEffect, useState, useMemo } from "react";
-
+import Header from "./Header";
 import * as Tone from "tone";
+import Controls from "./Controls";
 import Sequencer from "./Sequencer";
-
 import Effects from "./Effects";
 import Oscillator from "./Oscillator";
 import Envelope from "./Envelope";
 
 let vol = 0.7;
-let sequence = [null];
+let sequence;
 let osc;
 let envelope;
 let synthGain;
 let gate;
-let bpm = 66;
 
-export default function Synthesizer({ getOutput }) {
+export default function Synthesizer() {
     const [oscillator, setOscillator] = useState(null);
     let output = new Tone.Gain().toDestination();
     output.gain.rampTo(vol);
-
-    getOutput(output);
 
     //OSCILLATOR
     const setOsc = (o) => {
@@ -39,10 +36,8 @@ export default function Synthesizer({ getOutput }) {
     //Envelope
     const setEnvelope = (ampEnv) => {
         envelope = ampEnv;
-        console.log("set:", envelope);
     };
     const changeADSR = (newADSR) => {
-        console.log("changeAdsR");
         envelope.set({
             attack: newADSR.attack,
             decay: newADSR.decay,
@@ -52,14 +47,16 @@ export default function Synthesizer({ getOutput }) {
     };
 
     //SEQUENCER
+
     let seq = new Tone.Sequence(
         (time, freq) => {
             oscillator.set({ frequency: freq });
+            // oscillator.frequency.rampTo(freq);
             envelope.triggerAttackRelease(time);
             envelope.triggerRelease("+" + gate);
         },
         sequence,
-        "8n"
+        "16n"
     ).start(0);
 
     const changeSeq = (newSeq) => {
@@ -67,49 +64,13 @@ export default function Synthesizer({ getOutput }) {
         seq.set({ events: newSeq });
     };
 
-    //controlls
-
-    const playSynth = () => {
-        Tone.Transport.start();
-        Tone.start();
-    };
-    const stopSynth = () => {
-        Tone.Transport.stop();
-        Tone.stop();
-        // oscillator.stop();
-    };
-
-    const setBpm = (bpm) => {
-        Tone.Transport.bpm.value = bpm;
-    };
-
     return (
         <div>
-            <div id="controls">
-                <div id="seqSettings">
-                    <button onClick={playSynth}>Play</button>
-                    <button onClick={stopSynth}>Stop</button>
-
-                    <p>BPM:</p>
-                    <input
-                        type="number"
-                        defaultValue={bpm}
-                        max={1000}
-                        onChange={(e) => setBpm(e.target.value)}
-                    ></input>
-                    <p>Volume</p>
-                    <input
-                        type="range"
-                        defaultValue={0.7}
-                        step={0.01}
-                        max={1}
-                        onChange={(e) => {
-                            vol = -(e.target.value * 1);
-                            output.gain.rampTo(vol);
-                        }}
-                    ></input>
-                </div>
+            <div id="header">
+                <Header></Header>
+                <Controls></Controls>
             </div>
+
             <div id="synth">
                 <Oscillator
                     getOscillator={(osc) => setOsc(osc)}

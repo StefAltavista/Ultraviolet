@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import * as Tone from "tone";
 import effectsProps from "./effectsProps";
 
 export default function NewEffect({ eName, orden, FX, tweekFX, list }) {
-    console.log("create");
     let newEffect = {};
     if (!list[orden]) {
         newEffect = new EFX(eName, orden);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import * as Tone from "tone";
 import Slider from "./Slider";
 
@@ -7,7 +7,7 @@ export default function Envelope({ tweekEnvelope, getEnvelope }) {
         attack: 0.1,
         decay: 0.5,
         sustain: 0,
-        release: 0,
+        release: 0.5,
     };
     let ampEnv = new Tone.Envelope(envelope);
     getEnvelope(ampEnv);

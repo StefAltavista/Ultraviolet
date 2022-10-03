@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import * as Tone from "tone";
-import Envelope from "./Envelope";
 
 export default function Oscillator({ getOscillator, tweek }) {
     let oscillator = new Tone.FMOscillator({
         modulationIndex: 0,
         frequency: 60,
         volume: -100,
-        harmonicity: 5,
-        modulationIndex: 5,
+        harmonicity: 1.5,
+        modulationIndex: 1.5,
     }).start();
 
     getOscillator(oscillator);
@@ -33,7 +32,7 @@ export default function Oscillator({ getOscillator, tweek }) {
                 min={0}
                 max={10}
                 step={0.1}
-                defaultValue={5}
+                defaultValue={1.5}
                 onChange={(e) => {
                     tweek({
                         param: "harmonicity",
@@ -47,7 +46,7 @@ export default function Oscillator({ getOscillator, tweek }) {
                 type="range"
                 min={0}
                 max={10}
-                defaultValue={5}
+                defaultValue={1.5}
                 step={0.1}
                 onChange={(e) => {
                     tweek({
