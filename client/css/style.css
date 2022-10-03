@@ -31,17 +31,17 @@ p {
     margin: 0;
 }
 #synth {
-    border: 1px solid purple;
     display: flex;
     flex-direction: row;
-    height: 300px;
+    flex-wrap: wrap;
 }
 
 #oscillator h3 {
     margin-bottom: 20px;
 }
 #oscillator {
-    border-right: 1px solid purple;
+    border: 1px solid purple;
+    margin-right: 5px;
     padding: 5px;
     display: flex;
     flex-direction: column;
@@ -75,8 +75,8 @@ input[type="range"]::-webkit-slider-thumb:focus {
     background: transparent;
 }
 #envelope {
-    border-right: 1px solid purple;
-
+    border: 1px solid purple;
+    margin-right: 5px;
     padding: 10px;
     width: 400px;
     text-align: center;
@@ -100,7 +100,8 @@ input[type="range"]::-webkit-slider-thumb:focus {
 }
 
 #sequencer {
-    padding: 5px;
+    border: 1px solid purple;
+    margin-right: 5px;
 }
 #gate {
     display: flex;
@@ -119,7 +120,6 @@ input[type="range"]::-webkit-slider-thumb:focus {
 }
 
 #runSeq {
-    border-right: 1px solid purple;
     display: flex;
     flex-direction: row;
 }
