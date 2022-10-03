@@ -5,9 +5,8 @@ import AddEffectButton from "./AddEffectButton";
 
 let effects = [];
 
-export default function Effects({ synth, output }) {
+export default function Effects({ oscillator, output }) {
     const [fxChain, setFxChain] = useState([]);
-    console.log(synth);
 
     const getFx = (fx) => {
         effects = [...effects, fx];
@@ -22,12 +21,12 @@ export default function Effects({ synth, output }) {
     useEffect(() => {
         console.log("connections ");
         if (fxChain.length == 0) {
-            synth.connect(output);
+            oscillator.connect(output);
         }
 
         for (let i = 0; i < fxChain.length; i++) {
             if (i == 0) {
-                synth.connect(effects[i].effect);
+                oscillator.connect(effects[i].effect);
             }
             if (i == fxChain.length - 1) {
                 effects[i].effect.connect(output);
@@ -58,7 +57,7 @@ export default function Effects({ synth, output }) {
             <div>
                 <AddEffectButton
                     addSelected={(selectedEffect) => {
-                        synth.disconnect();
+                        oscillator.disconnect();
                         effects.map((fx) => {
                             fx.effect.disconnect();
                         });

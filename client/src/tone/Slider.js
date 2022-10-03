@@ -4,7 +4,7 @@ import { Range } from "react-range";
 import { Direction } from "react-range";
 
 export default function Slider(props) {
-    const [state, setState] = useState({ values: [0] });
+    const [state, setState] = useState({ values: [props.initValue || 0] });
 
     useEffect(() => {
         props.onSetValue(state.values[0]);
@@ -14,7 +14,7 @@ export default function Slider(props) {
         <Range
             step={0.01}
             direction={Direction.Up}
-            min={0}
+            min={props.minValue || 0}
             max={props.maxValue}
             values={state.values}
             onChange={(values) => setState({ values })}
@@ -24,7 +24,7 @@ export default function Slider(props) {
                     style={{
                         ...props.style,
                         height: "200px",
-                        width: "10%",
+                        width: "5px",
                         backgroundColor: "#ccc",
                     }}
                 >

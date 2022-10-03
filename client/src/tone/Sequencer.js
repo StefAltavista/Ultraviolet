@@ -41,8 +41,12 @@ export default function Sequencer(props) {
         arr[idx] = n;
         setSequence(arr);
     };
+    const gate = (gate) => {
+        props.onChangeGate(gate);
+    };
     return (
         <>
+            {" "}
             <div
                 style={{
                     display: "flex",
@@ -50,6 +54,14 @@ export default function Sequencer(props) {
                     alignItems: "center",
                 }}
             >
+                <div>
+                    <p>Gate</p>
+                    <Slider
+                        onSetValue={(value) => gate(value)}
+                        maxValue={1}
+                        initValue={0.5}
+                    />
+                </div>
                 <p>Steps: {steps}</p>
                 <div style={button} onClick={() => changeSteps("+")}>
                     +
@@ -58,7 +70,6 @@ export default function Sequencer(props) {
                     -
                 </div>
             </div>
-
             <div
                 style={{
                     display: "flex",

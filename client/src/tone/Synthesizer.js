@@ -5,32 +5,56 @@ import Sequencer from "./Sequencer";
 
 import Effects from "./Effects";
 import Oscillator from "./Oscillator";
+import Envelope from "./Envelope";
+
 let sequence = [null];
 let osc;
+let envelope;
+let synthGain;
+let gate;
+let bpm = 66;
 
 export default function Synthesizer() {
-    const [fxChain, setFxChain] = useState(["Filter"]);
-    const [synth, setSynth] = useState(null);
+    // const [fxChain, setFxChain] = useState(["Filter"]);
+    const [oscillator, setOscillator] = useState(null);
 
     //OSCILLATOR
-    useEffect(() => {
-        setSynth(osc);
-        console.log("useState");
-    }, []);
-
-    const setOscillator = (o) => {
+    const setOsc = (o) => {
         osc = o;
-        console.log("osc", osc, o);
     };
+    useEffect(() => {
+        setOscillator(osc);
+    }, []);
+    useEffect(() => {
+        if (oscillator) {
+            synthGain = new Tone.Gain(1).connect(oscillator.volume);
+            envelope.connect(synthGain);
+        }
+    }, [oscillator]);
 
+    //Envelope
+    const setEnvelope = (ampEnv) => {
+        envelope = ampEnv;
+        console.log("set:", envelope);
+    };
+    const changeADSR = (newADSR) => {
+        console.log("changeAdsR");
+        envelope.set({
+            attack: newADSR.attack,
+            decay: newADSR.decay,
+            sustain: newADSR.sustain,
+            release: newADSR.release,
+        });
+    };
     let output = new Tone.Gain().toDestination();
     output.gain.rampTo(0.7);
 
     //SEQUENCER
     let seq = new Tone.Sequence(
         (time, freq) => {
-            synth.triggerAttack(freq, time, 0.5);
-            // adsr.triggerAttackRelease(0.5);
+            oscillator.set({ frequency: freq });
+            envelope.triggerAttackRelease(time);
+            envelope.triggerRelease("+" + gate);
         },
         sequence,
         "8n"
@@ -43,33 +67,66 @@ export default function Synthesizer() {
 
     //controlls
 
-    function playSynth() {
-        // synth.start();
+    const playSynth = () => {
+        // oscillator.start();
         Tone.Transport.start();
-    }
-    function stopSynth() {
+    };
+    const stopSynth = () => {
         Tone.Transport.stop();
-        // synth.stop();
-    }
+        // oscillator.stop();
+    };
+
+    const setBpm = (bpm) => {
+        Tone.Transport.bpm.value = bpm;
+    };
 
     return (
         <>
-            <button onClick={playSynth}>Start Sound</button>
-            <button onClick={stopSynth}>Stop Sound</button>
+            <div
+                id="controls"
+                style={{ display: "flex", flexDirection: "row" }}
+            >
+                <button onClick={playSynth}>Start Sound</button>
+                <button onClick={stopSynth}>Stop Sound</button>
+
+                <p>BPM:</p>
+                <input
+                    type="number"
+                    defaultValue={bpm}
+                    max={1000}
+                    onChange={(e) => setBpm(e.target.value)}
+                ></input>
+            </div>
             <div style={{ display: "flex", flexDirection: "row" }}>
                 <Oscillator
-                    getOscillator={(osc) => setOscillator(osc)}
+                    getOscillator={(osc) => setOsc(osc)}
+                    tweek={(values) => {
+                        oscillator[values.param].linearRampToValueAtTime(
+                            values.value,
+                            Tone.now() + 0.1
+                        );
+                    }}
                 ></Oscillator>
-
-                {synth ? (
-                    <Effects synth={synth} output={output}></Effects>
-                ) : null}
             </div>
-
+            <Envelope
+                getEnvelope={(ampEnv) => {
+                    setEnvelope(ampEnv);
+                }}
+                tweekEnvelope={(newADSR) => {
+                    changeADSR(newADSR);
+                }}
+                maxValue={1}
+            ></Envelope>
             <Sequencer
                 onChangeSequence={(newSeq) => changeSeq(newSeq)}
+                onChangeGate={(newGate) => {
+                    gate = newGate;
+                }}
                 max={500}
             ></Sequencer>
+            {oscillator ? (
+                <Effects oscillator={oscillator} output={output}></Effects>
+            ) : null}
         </>
     );
 }

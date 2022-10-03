@@ -2,36 +2,14 @@ import React, { useEffect } from "react";
 import * as Tone from "tone";
 import Envelope from "./Envelope";
 
-export default function Oscillator({ getOscillator }) {
-    let synth = new Tone.FMSynth({
-        modulationIndex: 20,
+export default function Oscillator({ getOscillator, tweek }) {
+    let oscillator = new Tone.FMOscillator({
+        modulationIndex: 0,
         frequency: 60,
-        envelope: { attack: 20, decay: 10, sustain: 0, release: 10 },
-    });
+        volume: -100,
+    }).start();
 
-    let synthGain = new Tone.Gain().connect(synth.detune);
-    //LFO
-    let lfo = new Tone.LFO(50, 0, 100).start();
-    lfo.connect(synthGain);
-    getOscillator(synth);
-
-    function freq(value) {
-        synth.detune.rampTo(parseFloat(value));
-    }
-
-    function lfoGain(value) {
-        lfo.max = parseFloat(value);
-    }
-    function lfoFreq(value) {
-        lfo.frequency.rampTo(parseFloat(value));
-    }
-    function changeADSR(newADSR) {
-        synth.envelope.attack = newADSR.attack;
-        // synth.envelope.decay = newADSR.decay;
-        // synth.envelope.rampTo({ ...newADSR });
-        // synth.set();
-        console.log(synth.set);
-    }
+    getOscillator(oscillator);
 
     return (
         <div>
@@ -42,32 +20,38 @@ export default function Oscillator({ getOscillator }) {
                 min={4}
                 max={3000}
                 defaultValue={100}
-                onChange={(e) => freq(e.target.value)}
+                onChange={(e) =>
+                    tweek({ param: "detune", value: e.target.value })
+                }
             ></input>
 
-            <p>Lfo Freq</p>
-            <input
-                type="range"
-                min={1}
-                max={100}
-                step={0.1}
-                onChange={(e) => lfoFreq(e.target.value)}
-            ></input>
-
-            <p>Lfo Gain</p>
+            <p>Modulation Frequency</p>
             <input
                 type="range"
                 min={0}
-                max={1000}
+                max={10}
                 step={0.1}
-                onChange={(e) => lfoGain(e.target.value)}
-            ></input>
-            <Envelope
-                getEnvelope={(newADSR) => {
-                    changeADSR(newADSR);
+                onChange={(e) => {
+                    tweek({
+                        param: "harmonicity",
+                        value: e.target.value,
+                    });
                 }}
-                maxValue={1}
-            ></Envelope>
+            ></input>
+
+            <p>Modulation Amount</p>
+            <input
+                type="range"
+                min={0}
+                max={10}
+                step={0.1}
+                onChange={(e) => {
+                    tweek({
+                        param: "modulationIndex",
+                        value: e.target.value,
+                    });
+                }}
+            ></input>
         </div>
     );
 }
