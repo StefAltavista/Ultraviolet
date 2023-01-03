@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Synthezier web app",
     "main": "index.js",
+    "homepage": "./",
     "scripts": {
         "dev": "webpack-dev-server --mode development --open --hot",
         "start": "node server.js",

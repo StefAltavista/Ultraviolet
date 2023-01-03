@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import * as Tone from "tone";
 import Controls from "./Controls";
@@ -10,7 +10,16 @@ import Envelope from "./Envelope";
 let vol = 0.7;
 let sequence;
 let osc;
-let envelope;
+
+// let envelope;
+let env = {
+    attack: 0.1,
+    decay: 0.5,
+    sustain: 0.1,
+    release: 0.5,
+};
+let envelope = new Tone.Envelope(env);
+
 let synthGain;
 let gate;
 
@@ -33,7 +42,7 @@ export default function Synthesizer() {
         }
     }, [oscillator]);
 
-    //Envelope
+    Envelope;
     const setEnvelope = (ampEnv) => {
         envelope = ampEnv;
     };
