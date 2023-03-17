@@ -16,12 +16,8 @@ module.exports = {
         new MiniCssExtractPlugin(),
     ],
     devServer: {
-        static: path.join(__dirname, "client", "public"),
-        proxy: {
-            "/": {
-                target: "http://localhost:7001",
-            },
-        },
+        // static: path.join(__dirname, "client", "public"),
+
         port: "7000",
     },
     module: {

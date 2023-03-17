@@ -24,7 +24,7 @@ export default function Slider(props) {
                     style={{
                         ...props.style,
                         height: "200px",
-                        width: "5px",
+                        width: "2px",
                         backgroundColor: "rgb(159, 124, 255)",
                     }}
                 >
@@ -36,7 +36,7 @@ export default function Slider(props) {
                     {...props}
                     style={{
                         ...props.style,
-                        height: "20px",
+                        height: "4px",
                         width: "20px",
                         backgroundColor: "#999",
                     }}

@@ -5,10 +5,17 @@ import AddEffectButton from "./AddEffectButton";
 let effects = [];
 
 export default function Effects({ oscillator, output }) {
-    const [fxChain, setFxChain] = useState(["Filter"]);
+    const [fxChain, setFxChain] = useState([
+        "Filter",
+        "Distortion",
+        "PingPongDelay",
+    ]);
 
     const getFx = (fx) => {
         effects = [...effects, fx];
+    };
+    const removeFx = (index) => {
+        effects.splice(index, 1);
     };
     const tweek = (orden, value, param, paramRamp) => {
         effects[orden].tweek(value, param, paramRamp);
@@ -23,6 +30,7 @@ export default function Effects({ oscillator, output }) {
         }
 
         for (let i = 0; i < fxChain.length; i++) {
+            effects[i].update(i);
             if (i == 0) {
                 oscillator.connect(effects[i].effect);
             }
@@ -65,6 +73,13 @@ export default function Effects({ oscillator, output }) {
                             FX={(fx) => getFx(fx)}
                             tweekFX={(orden, value, param, paramRamp) => {
                                 tweek(orden, value, param, paramRamp);
+                            }}
+                            remove={(i) => {
+                                oscillator.disconnect(i);
+                                let copy = [...fxChain];
+                                copy.splice(i, 1);
+                                removeFx(i);
+                                setFxChain(copy);
                             }}
                         ></NewEffect>
                     );

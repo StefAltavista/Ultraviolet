@@ -2,7 +2,7 @@ import React from "react";
 import * as Tone from "tone";
 import effectsProps from "./effectsProps";
 
-export default function NewEffect({ eName, orden, FX, tweekFX, list }) {
+export default function NewEffect({ eName, orden, FX, tweekFX, list, remove }) {
     let newEffect = {};
     if (!list[orden]) {
         newEffect = new EFX(eName, orden);
@@ -13,7 +13,10 @@ export default function NewEffect({ eName, orden, FX, tweekFX, list }) {
 
     return (
         <div id="effect">
-            <h3>{newEffect.eName}</h3>
+            <div className="effectHead">
+                <h3>{newEffect.eName}</h3>
+                <button onClick={() => remove(orden)}>-</button>
+            </div>
             {newEffect.parameters.map((p, i) => {
                 return (
                     <div key={p.param}>
@@ -59,5 +62,8 @@ class EFX {
         } else {
             this.effect[param] = value;
         }
+    }
+    update(i) {
+        this.orden = i;
     }
 }

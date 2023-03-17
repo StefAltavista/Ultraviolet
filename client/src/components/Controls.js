@@ -1,7 +1,8 @@
 import React from "react";
 import * as Tone from "tone";
-let bpm = 100;
-export default function Controls() {
+let bpm = 99;
+export default function Controls({ volume }) {
+    console.log(Tone);
     const playSynth = () => {
         Tone.Transport.start();
         Tone.start();
@@ -17,7 +18,7 @@ export default function Controls() {
     return (
         <div id="controls">
             <div id="seqSettings">
-                <button onClick={playSynth}>Play</button>
+                <button onClick={() => playSynth()}>Play</button>
                 <button onClick={stopSynth}>Stop</button>
 
                 <p>BPM:</p>
@@ -42,8 +43,8 @@ export default function Controls() {
                         step={0.01}
                         max={1}
                         onChange={(e) => {
-                            vol = -(e.target.value * 1);
-                            output.gain.rampTo(vol);
+                            let vol = -(e.target.value * 1);
+                            volume(vol);
                         }}
                     ></input>
                 </div>

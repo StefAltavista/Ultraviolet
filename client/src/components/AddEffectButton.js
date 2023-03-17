@@ -7,23 +7,24 @@ export default function AddEffectButton({ addSelected }) {
     return (
         <>
             <button onClick={() => setAdd(!add)}>+</button>
-            <div id="FX">
-                {add
-                    ? Object.keys(effectsProps).map((key) => {
-                          return (
-                              <p
-                                  key={key}
-                                  onClick={() => {
-                                      setAdd(!add);
-                                      addSelected(effectsProps[key].eName);
-                                  }}
-                              >
-                                  {effectsProps[key].eName}
-                              </p>
-                          );
-                      })
-                    : null}
-            </div>
+
+            {add ? (
+                <div id="listEffect">
+                    {Object.keys(effectsProps).map((key) => {
+                        return (
+                            <p
+                                key={key}
+                                onClick={() => {
+                                    setAdd(!add);
+                                    addSelected(effectsProps[key].eName);
+                                }}
+                            >
+                                {effectsProps[key].eName}
+                            </p>
+                        );
+                    })}{" "}
+                </div>
+            ) : null}
         </>
     );
 }

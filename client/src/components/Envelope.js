@@ -7,7 +7,7 @@ export default function Envelope({ tweekEnvelope, getEnvelope }) {
         attack: 0.1,
         decay: 0.5,
         sustain: 0.1,
-        release: 0.5,
+        release: 0.7,
     };
     let ampEnv = new Tone.Envelope(envelope);
     getEnvelope(ampEnv);

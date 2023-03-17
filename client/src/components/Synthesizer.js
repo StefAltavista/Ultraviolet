@@ -6,6 +6,7 @@ import Sequencer from "./Sequencer";
 import Effects from "./Effects";
 import Oscillator from "./Oscillator";
 import Envelope from "./Envelope";
+import Oscilloscope from "./Oscilloscope";
 
 let vol = 0.7;
 let sequence;
@@ -25,6 +26,8 @@ let gate;
 
 export default function Synthesizer() {
     const [oscillator, setOscillator] = useState(null);
+    // const [vol, setVol] = useState(0.7);
+
     let output = new Tone.Gain().toDestination();
     output.gain.rampTo(vol);
 
@@ -76,8 +79,13 @@ export default function Synthesizer() {
     return (
         <div>
             <div id="header">
-                <Header></Header>
-                <Controls></Controls>
+                <Header />
+                <div id="oscilloscope">
+                    {oscillator ? (
+                        <Oscilloscope output={output}></Oscilloscope>
+                    ) : null}
+                </div>
+                <Controls volume={(v) => output.gain.rampTo(v)} />
             </div>
 
             <div id="synth">
@@ -110,6 +118,7 @@ export default function Synthesizer() {
                     ></Sequencer>
                 </div>
             </div>
+
             {oscillator ? (
                 <Effects oscillator={oscillator} output={output}></Effects>
             ) : null}

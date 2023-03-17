@@ -4,7 +4,7 @@ const effectsProps = {
         parameters: [
             {
                 param: "frequency",
-                valueInit: 10000,
+                valueInit: 5000,
                 maxValue: 10000,
                 step: 1,
 
@@ -12,7 +12,7 @@ const effectsProps = {
             },
             {
                 param: "Q",
-                valueInit: 0,
+                valueInit: 45,
                 maxValue: 60,
                 step: 1,
                 paramRamp: true,
@@ -24,38 +24,38 @@ const effectsProps = {
         parameters: [
             {
                 param: "delayTime",
-                valueInit: 0,
+                valueInit: 0.05,
                 maxValue: 1,
                 step: 0.01,
                 paramRamp: true,
             },
             {
                 param: "feedback",
-                valueInit: 0,
+                valueInit: 0.5,
                 maxValue: 1,
                 step: 0.01,
                 paramRamp: true,
             },
         ],
     },
-    Reverb: {
-        eName: "Reverb",
-        parameters: [
-            {
-                param: "decay",
-                valueInit: 0.2,
-                maxValue: 5,
-                step: 0.1,
-                paramRamp: true,
-            },
-        ],
-    },
+    // Reverb: {
+    //     eName: "Reverb",
+    //     parameters: [
+    //         {
+    //             param: "decay",
+    //             valueInit: 0.2,
+    //             maxValue: 5,
+    //             step: 0.1,
+    //             paramRamp: true,
+    //         },
+    //     ],
+    // },
     Distortion: {
         eName: "Distortion",
         parameters: [
             {
                 param: "distortion",
-                valueInit: 0,
+                valueInit: 2,
                 maxValue: 5,
                 step: 0.1,
                 paramRamp: false,

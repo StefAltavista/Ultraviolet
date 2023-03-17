@@ -94,8 +94,8 @@ export default function Sequencer(props) {
                                     style={{
                                         border: "1px solid white",
                                         margin: "10px",
-                                        width: "30px",
-                                        height: "30px",
+                                        width: "20px",
+                                        height: "20px",
                                         backgroundColor: x ? "grey" : "black",
                                         cursor: "pointer",
                                     }}
